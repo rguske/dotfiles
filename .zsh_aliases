@@ -1,0 +1,20 @@
+# tmux
+#alias tmuxinit="tmux new-session -n init \; split-window -dh \; select-pane -t 1 \; split-window -dv -p 80 'ctop' \; clock-mode \; select-pane -t 2 \; select-pane -t 0 \; new-window -n htop 'htop --sort-key=PERCENT_CPU' \; select-window -t 1"
+alias tmuxinit="tmux new-session -n init \; set -g mouse on \; set -g mouse-select-window on \; set -g mouse-resize-pane on \; set -g visual-bell off"
+tmuxinit
+
+# Shell shortcuts
+alias dotfiles='sh ~/dotfiles.sh'
+alias c=clear
+alias k=kubectl
+alias w='watch -n1'
+alias cat=bat
+alias ping=prettyping
+alias untar='tar -zxvf ' # https://opensource.com/article/18/9/handy-bash-aliases
+alias myip='curl ipinfo.io/ip'
+alias ec='echo $?'
+alias zshconfig="vim ~/.zshrc"
+
+# Applications
+alias kctx=kubectx
+alias kns=kubens
