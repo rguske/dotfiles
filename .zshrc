@@ -41,14 +41,15 @@ source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.
 #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=0'
 
 # brew install fzf
+# install fzf autocompletion with --> $(brew --prefix)/opt/fzf/install
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-export FZF_CTRL_R_OPTS="
-  --preview 'echo {}' --preview-window up:3:hidden:wrap
-  --bind 'ctrl-/:toggle-preview'
-  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
-  --color header:italic
-  --header 'Press CTRL-Y to copy command into clipboard'"
+#export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+#export FZF_CTRL_R_OPTS="
+#  --preview 'echo {}' --preview-window up:3:hidden:wrap
+#  --bind 'ctrl-/:toggle-preview'
+#  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+#  --color header:italic
+#  --header 'Press CTRL-Y to copy command into clipboard'"
 
 # export dotfiles folder https://github.com/rguske/dotfiles
 export DOTFILESDIR='$HOME/dotfiles'
