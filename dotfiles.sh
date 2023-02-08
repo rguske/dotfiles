@@ -1,10 +1,13 @@
 #!/bin/bash
 # copy ZSH config files into Git dir dotfiles
-cp -r ~/.zshrc ~/.zsh_aliases ~/dotfiles.sh ${DOTFILESDIR}
 
-ls -rtla ${DOTFILESDIR}
+set -euo pipefail
 
-cd ${DOTFILESDIR}
+cp -R $HOME/.zshrc $HOME/.zsh_aliases $HOME/dotfiles.sh $DOTFILESDIR
+
+cd $DOTFILESDIR
+
+ls -rtla
 
 git status
 
@@ -14,4 +17,4 @@ git commit -s -m "backup ${DATE}"
 
 gloga
 
-cd ${HOME}
+cd $HOME
