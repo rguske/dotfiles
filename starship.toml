@@ -75,11 +75,25 @@ format = '[ $symbol$context\($namespace\) ]($style)'
 style = "bg:sapphire fg:crust"
 
 [[kubernetes.contexts]]
-# Case-insensitive "contains prod" match. NOTE: (?i) is unsupported by this
-# starship build's regex engine (it silently fails to compile and the rule
-# gets dropped) — do not "simplify" this back to (?i).*prod.*.
+# Only the FIRST matching entry in this list applies (no merging across
+# entries) — so the prod red-flag rule MUST come before the alias rule
+# below, or a prod context that also happens to match the ocp alias
+# pattern would silently lose its red highlight in favor of the shorter
+# alias. Case-insensitive "contains prod" match; NOTE: (?i) is unsupported
+# by this starship build's regex engine (it silently fails to compile and
+# the rule gets dropped) — do not "simplify" this back to (?i).*prod.*.
 context_pattern = ".*[Pp][Rr][Oo][Dd].*"
 style = "bg:red fg:crust"
+
+[[kubernetes.contexts]]
+# OpenShift `oc login` context names are "<ns>/<api-host>/<user>" and get
+# unreadably long. Shorten any non-prod "api-ocp-<id>-..." context down to
+# "ocp-<id>"; contexts that don't match this pattern pass through
+# unchanged (e.g. kind/docker-desktop/minikube). (Using `contexts` +
+# `context_alias` here, not the top-level `context_aliases` table — that's
+# deprecated since Starship 1.21 and prints a warning on every prompt.)
+context_pattern = '.*api-ocp-(?P<cluster>[a-zA-Z0-9]+)-.*'
+context_alias = "ocp-$cluster"
 
 [time]
 disabled = false
