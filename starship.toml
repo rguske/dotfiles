@@ -1,15 +1,106 @@
-# starship.toml — prompt: path, git, and an always-on Kubernetes
-# context/namespace indicator that turns bold red for prod-like contexts.
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# starship.toml — Powerline-style prompt (Powerlevel10k-esque), built on top
+# of Starship's official `catppuccin-powerline` preset, in Catppuccin Mocha.
+# Two-line layout: segment pills on line 1, bare prompt char on line 2.
+# Carries forward the always-on Kubernetes context/namespace capsule that
+# turns solid red for prod-like contexts.
 
 format = """
+[](red)\
+$os\
+$username\
+[](bg:peach fg:red)\
 $directory\
+[](bg:yellow fg:peach)\
 $git_branch\
 $git_status\
+[](fg:yellow bg:sapphire)\
 $kubernetes\
+[](fg:sapphire bg:lavender)\
+$time\
+[ ](fg:lavender)\
+$cmd_duration\
 $line_break\
 $character"""
 
 palette = "catppuccin_mocha"
+
+[os]
+disabled = false
+style = "bg:red fg:crust"
+
+[os.symbols]
+Macos = "󰀵 "
+
+[username]
+show_always = false
+style_user = "bg:red fg:crust"
+style_root = "bg:red fg:crust"
+format = '[ $user ]($style)'
+
+[directory]
+style = "bg:peach fg:crust"
+format = "[ $path ]($style)[$read_only]($read_only_style)"
+truncation_length = 3
+truncation_symbol = "…/"
+truncate_to_repo = true
+read_only = " 🔒"
+read_only_style = "bg:peach fg:crust"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+style = "bg:yellow"
+format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
+
+[git_status]
+style = "bg:yellow"
+format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+
+[kubernetes]
+disabled = false
+# The capsule is painted entirely by $style (not a hardcoded palette color)
+# so the per-context override below can flip the WHOLE background to red,
+# not just the text. \( and \) render literal parentheses around
+# $namespace — bare (...) in a Starship format string is a conditional-group
+# construct, not literal text, and would otherwise silently swallow the
+# parens themselves.
+symbol = "⎈ "
+format = '[ $symbol$context\($namespace\) ]($style)'
+style = "bg:sapphire fg:crust"
+
+[[kubernetes.contexts]]
+# Case-insensitive "contains prod" match. NOTE: (?i) is unsupported by this
+# starship build's regex engine (it silently fails to compile and the rule
+# gets dropped) — do not "simplify" this back to (?i).*prod.*.
+context_pattern = ".*[Pp][Rr][Oo][Dd].*"
+style = "bg:red fg:crust"
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:lavender"
+format = '[[  $time ](fg:crust bg:lavender)]($style)'
+
+[cmd_duration]
+show_milliseconds = true
+format = "[ took $duration ]($style)"
+style = "fg:lavender"
+disabled = false
+min_time = 2000
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+vimcmd_symbol = '[❮](bold green)'
+vimcmd_replace_one_symbol = '[❮](bold lavender)'
+vimcmd_replace_symbol = '[❮](bold lavender)'
+vimcmd_visual_symbol = '[❮](bold yellow)'
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
@@ -38,37 +129,3 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
-
-[directory]
-style = "bold lavender"
-truncation_length = 3
-truncate_to_repo = true
-read_only = " 🔒"
-format = "[$path]($style)[$read_only]($read_only_style) "
-
-[git_branch]
-style = "bold mauve"
-format = "on [$symbol$branch]($style) "
-
-[git_status]
-style = "bold peach"
-format = "([$all_status$ahead_behind]($style) )"
-
-[kubernetes]
-disabled = false
-# \( and \) render literal parentheses around $namespace. Bare (...) in a
-# Starship format string is a conditional-group construct, not literal
-# text, and would otherwise silently swallow the parens themselves.
-format = '[⎈ $context\($namespace\)]($style) '
-style = "bold blue"
-
-[[kubernetes.contexts]]
-# Case-insensitive "contains prod" match. NOTE: (?i) is unsupported by this
-# starship build's regex engine (it silently fails to compile and the rule
-# gets dropped) — do not "simplify" this back to (?i).*prod.*.
-context_pattern = ".*[Pp][Rr][Oo][Dd].*"
-style = "bold red"
-
-[character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[➜](bold red)"

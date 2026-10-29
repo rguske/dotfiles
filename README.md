@@ -13,7 +13,7 @@ auto-flags anything matching "prod" in bold red.
 | `zsh/functions.zsh`    | Reusable shell functions                                 |
 | `zsh/completions.zsh`  | Guarded CLI completions (kubectl, kind, crc, oc)         |
 | `zsh/aliases.zsh`      | Aliases, each guarded against missing tools              |
-| `starship.toml`        | Prompt config — path, git, Kubernetes context/namespace  |
+| `starship.toml`        | Powerline-style prompt — os/path/git/Kubernetes segments |
 | `tmux/.tmux.conf`      | tmux config (prefix `Ctrl-a`, TPM-managed plugins)       |
 | `tmux/scripts/`        | Helper scripts used by the tmux status bar               |
 | `ghostty/config`       | Ghostty terminal config (Catppuccin Mocha theme)         |
@@ -37,10 +37,18 @@ installs the plugins declared in `tmux/.tmux.conf`.
 `install.sh` is idempotent and safe to re-run. Anything it would overwrite is
 backed up first to `~/.dotfiles_backup/<timestamp>/`.
 
+## Prompt
+
+`starship.toml` is a Powerline-style, Powerlevel10k-esque prompt built on
+Starship's official `catppuccin-powerline` preset: colored pill segments
+with arrow separators for OS, path, git branch/status, Kubernetes
+context/namespace, and time, followed by command duration — then a bare
+`❯` prompt character on its own line.
+
 ## Kubernetes prompt
 
-The Starship `kubernetes` module always shows `⎈ <context>(<namespace>)` and
-switches to bold red automatically when the context name contains "prod" —
-see `[[kubernetes.contexts]]` in `starship.toml` to add more patterns. The
-same context/namespace also appears in the tmux status bar via
-`tmux/scripts/k8s-status.sh`.
+The Kubernetes segment always shows `⎈ <context>(<namespace>)` and its
+whole pill switches to solid red automatically when the context name
+contains "prod" — see `[[kubernetes.contexts]]` in `starship.toml` to add
+more patterns. The same context/namespace also appears in the tmux status
+bar via `tmux/scripts/k8s-status.sh`.
