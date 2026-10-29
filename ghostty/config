@@ -1,4 +1,4 @@
-theme = Catppuccin Mocha
+theme = "Catppuccin Mocha"
 shell-integration = zsh
 
 # macos-titlebar-style = hidden

@@ -617,7 +617,7 @@ git commit -m "feat(tmux): add tmux.conf (Ctrl-a prefix, TPM plugins, k8s status
 - [ ] **Step 1: Create the file**
 
 ```
-theme = catppuccin-mocha
+theme = "Catppuccin Mocha"
 shell-integration = zsh
 
 # macos-titlebar-style = hidden
@@ -630,10 +630,12 @@ background-blur-radius = 20
 keybind = global:ctrl+grave_accent=toggle_quick_terminal
 ```
 
+Note: the theme must be the exact registered name `Catppuccin Mocha` (capitalized, space-separated, quoted) — `catppuccin-mocha` does not exist as a theme on this Ghostty install (`ghostty +list-themes` lists `Catppuccin Mocha`, `Catppuccin Frappe`, `Catppuccin Latte`, `Catppuccin Macchiato`).
+
 - [ ] **Step 2: Verify Ghostty accepts the config without error**
 
-Run: `/Applications/Ghostty.app/Contents/MacOS/ghostty +show-config --config-file="$(pwd)/ghostty/config" 2>&1 | head -20`
-Expected: prints the resolved configuration (including `theme = catppuccin-mocha` and `shell-integration = zsh`) with no `error:`/`unknown key` lines. (Full visual verification — the theme actually rendering — happens in Task 13 when the config is symlinked and Ghostty is restarted.)
+Run: `/Applications/Ghostty.app/Contents/MacOS/ghostty +validate-config --config-file="$(pwd)/ghostty/config"`
+Expected: exits 0 with no output. (`+show-config` does not support `--config-file` on this Ghostty version and is not a valid way to check this file. Full visual verification — the theme actually rendering — happens in Task 13 when the config is symlinked and Ghostty is restarted.)
 
 - [ ] **Step 3: Commit**
 
