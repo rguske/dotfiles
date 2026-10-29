@@ -14,7 +14,7 @@ auto-flags anything matching "prod" in bold red.
 | `zsh/completions.zsh`  | Guarded CLI completions (kubectl, kind, crc, oc)         |
 | `zsh/aliases.zsh`      | Aliases, each guarded against missing tools              |
 | `starship.toml`        | Powerline-style prompt — os/path/git/Kubernetes segments |
-| `tmux/.tmux.conf`      | tmux config (prefix `Ctrl-a`, TPM-managed plugins)       |
+| `tmux/.tmux.conf`      | tmux config (prefix `Ctrl-b`, TPM-managed plugins)       |
 | `tmux/scripts/`        | Helper scripts used by the tmux status bar               |
 | `ghostty/config`       | Ghostty terminal config (Catppuccin Mocha theme)         |
 | `Brewfile`             | Every Homebrew package this setup depends on             |
@@ -29,7 +29,7 @@ cd ~/dotfiles
 exec zsh
 ```
 
-Inside tmux, press `prefix + I` (capital i; prefix is `Ctrl-a`) once so TPM
+Inside tmux, press `prefix + I` (capital i; prefix is `Ctrl-b`) once so TPM
 installs the plugins declared in `tmux/.tmux.conf`.
 
 ## Re-running
@@ -108,6 +108,21 @@ another view into the one shared session. That's intentional: it's what
 makes tmux-resurrect/continuum's persistence actually useful across Ghostty
 restarts. If you'd rather each window get its own independent session,
 change `tmux new -s main` to `tmux new` in `zsh/.zshrc`.
+
+## Switching light/dark theme
+
+Run `theme light` or `theme dark` (no arg toggles) to switch Ghostty, tmux,
+and the Starship prompt together between Catppuccin Mocha (dark, default)
+and Catppuccin Latte (light) — see the `theme` function in
+`zsh/functions.zsh`. tmux and Starship apply immediately; Ghostty has no
+config file-watcher, so press its reload-config keybind (`cmd+shift+,`) or
+restart it afterwards to see the new theme and background there.
+
+This edits the tracked files in the repo directly (not the `~`-symlinked
+copies — rewriting *those* in place would turn the symlinks into regular
+files), so `git status` will show a pending change after switching. That's
+expected: it's local preference, not a bug — commit it only if you want the
+new theme to become the repo's default too.
 
 ## Background wallpaper
 
