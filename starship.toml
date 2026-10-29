@@ -56,7 +56,10 @@ format = "([$all_status$ahead_behind]($style) )"
 
 [kubernetes]
 disabled = false
-format = '[⎈ $context($namespace)]($style) '
+# \( and \) render literal parentheses around $namespace. Bare (...) in a
+# Starship format string is a conditional-group construct, not literal
+# text, and would otherwise silently swallow the parens themselves.
+format = '[⎈ $context\($namespace\)]($style) '
 style = "bold blue"
 
 [[kubernetes.contexts]]
