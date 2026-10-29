@@ -52,3 +52,28 @@ whole pill switches to solid red automatically when the context name
 contains "prod" — see `[[kubernetes.contexts]]` in `starship.toml` to add
 more patterns. The same context/namespace also appears in the tmux status
 bar via `tmux/scripts/k8s-status.sh`.
+
+## tmux status bar
+
+Right side, left to right: current app, CPU, memory, weather, Kubernetes
+context/namespace, session name, battery.
+
+Weather (`xamut/tmux-weather`) calls [wttr.in](https://wttr.in) — no API
+key needed; location is IP-geolocated by default. Pin a city with
+`set -g @tmux-weather-location "Berlin"` in `tmux/.tmux.conf` if you'd
+rather not rely on IP geolocation (e.g. on a laptop that moves around, or
+behind a VPN).
+
+CPU/memory/battery are hand-built pills (same `#{@thm_*}` colors and
+separator glyphs catppuccin's own modules use) that call each plugin's
+backing script directly via `#(...)`, rather than using catppuccin's
+bundled cpu/battery modules or tmux-cpu/tmux-battery's own
+`#{cpu_percentage}`-style template variables. Those template variables are
+installed via a one-shot find-and-replace each plugin runs against
+`status-right`'s text at plugin-load time, and TPM loads all plugins in
+parallel — so whether the text to replace already exists by the time that
+find-and-replace runs is a race. (Separately, CPU specifically has its own
+script in `tmux/scripts/cpu-status.sh` rather than tmux-cpu's own
+`cpu_percentage.sh`, which shells out to `iostat -c 2` — two samples,
+~1s — on macOS; commands that take about that long are much more likely
+to lose the race, so a single near-instant `ps` snapshot is used instead.)
