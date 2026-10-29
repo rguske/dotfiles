@@ -16,12 +16,16 @@ any new machine via a single install script + Brewfile. Pushed to the existing
   `zsh-syntax-highlighting` sourced from Homebrew, `fzf` sourced, `kubectl`/`kind`/`crc`/`oc`
   completions sourced unconditionally, a dead `powerline-go` precmd hook driving the prompt,
   and a hardcoded `cd` into the Google Drive dev folder on every shell start.
-- `~/.p10k.zsh` (95 KB, fully configured) and `~/.config/starship.toml` (stub) both exist on
-  disk but are **not** referenced from `.zshrc` — orphaned leftovers.
-- No Kubernetes context/namespace indicator exists anywhere today.
+- `~/.p10k.zsh` (95 KB, fully configured), `~/.config/starship.toml` (stub), and an Oh My Zsh
+  `kube-ps1` plugin all exist on disk but are **not** referenced from `.zshrc` — orphaned
+  leftovers from previous experiments.
+- No Kubernetes context/namespace indicator is actually active today.
 - `~/.tmux.conf`: Catppuccin Mocha styling, `tmux-cpu`/`tmux-battery` wired via direct `run`
-  paths, but references a Catppuccin plugin path that does not exist on disk. TPM is
-  installed at `~/.tmux/plugins/tpm` but never invoked — config is half-wired.
+  paths. The Catppuccin plugin itself is present (manually cloned to
+  `~/.config/tmux/plugins/catppuccin/tmux/`, plus an unused `catppuccin_bck` copy) — it was
+  never broken, just not managed by TPM. TPM is installed at `~/.tmux/plugins/tpm` but never
+  invoked — plugins are a mix of manually-cloned and hand-wired `run` lines instead of a
+  single managed list.
 - `~/.config/ghostty` config (under Application Support): `theme = "Apple System Colors"`
   (a `catppuccin-mocha` line is present but commented out), Nerd Font set, cursor/blur
   configured, `shell-integration = zsh` is commented out, a quick-terminal keybind exists.
@@ -151,7 +155,10 @@ Each component is independently testable/sourceable:
   `~/Library/Application Support/com.mitchellh.ghostty/config`, `~/.config/starship.toml`):
   if the destination exists and is not already the expected symlink, move it to
   `~/.dotfiles_backup/<timestamp>/` before creating the symlink.
-- Clones TPM to `~/.tmux/plugins/tpm` if missing.
+- Clones TPM to `~/.tmux/plugins/tpm` if missing. TPM manages its own plugin clones under
+  `~/.tmux/plugins/`; the old manually-cloned `~/.config/tmux/plugins/catppuccin` and unused
+  `catppuccin_bck` directories are left untouched (not referenced by the new config) and can
+  be deleted manually later.
 - Symlinks/clones `zsh-autosuggestions`, `zsh-syntax-highlighting`, and `fzf-tab` into
   `~/.oh-my-zsh/custom/plugins/` if missing.
 - Optional `--with-brew` flag runs `brew bundle --file Brewfile`.
