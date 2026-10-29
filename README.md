@@ -77,3 +77,42 @@ script in `tmux/scripts/cpu-status.sh` rather than tmux-cpu's own
 `cpu_percentage.sh`, which shells out to `iostat -c 2` — two samples,
 ~1s — on macOS; commands that take about that long are much more likely
 to lose the race, so a single near-instant `ps` snapshot is used instead.)
+
+## tmux quick-action menu
+
+Press `prefix + m` for an on-screen popup menu — the key to press is shown
+right next to each action, no memorizing required:
+
+| Key | Action                      |
+|-----|------------------------------|
+| `1` | Show all windows (`choose-tree -Zw`) |
+| `2` | Split the pane horizontally  |
+| `3` | Launch `k9s`                 |
+| `4` | Launch `htop`                |
+
+This overrides tmux's default `prefix + m` binding ("mark pane"), which is
+rarely used. Edit the `bind-key m display-menu ...` line near the bottom of
+`tmux/.tmux.conf` to add more entries.
+
+## tmux auto-start
+
+Every new interactive Ghostty shell automatically attaches to (or creates) a
+tmux session named `main` — see the guarded block near the top of
+`zsh/.zshrc`. It's skipped for non-interactive shells, for Cursor/VS Code's
+embedded terminal (`$TERM_PROGRAM=vscode`), and if already inside tmux.
+
+Because every window attaches to the *same* `main` session, all Ghostty
+windows/tabs show the same set of tmux windows and panes — opening a new
+Ghostty tab doesn't give you an independent tmux session, it gives you
+another view into the one shared session. That's intentional: it's what
+makes tmux-resurrect/continuum's persistence actually useful across Ghostty
+restarts. If you'd rather each window get its own independent session,
+change `tmux new -s main` to `tmux new` in `zsh/.zshrc`.
+
+## Background wallpaper
+
+`ghostty/config` sets a subtle background image (`ghostty/wallpaper.jpg`,
+`background-image-opacity = 0.2`, `background-image-fit = cover`) so it
+reads as a faint backdrop rather than competing with text. Swap in your own
+image by replacing `ghostty/wallpaper.jpg` and adjusting
+`background-image-opacity` to taste (`0` = invisible, `1` = fully opaque).

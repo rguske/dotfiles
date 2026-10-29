@@ -8,4 +8,13 @@ cursor-style = bar
 # background-opacity = 0.9
 background-blur-radius = 20
 
+# Subtle background wallpaper. background-image-opacity is relative to
+# background-opacity (1 by default, since it's commented out above) — at
+# 0.2 the image is mixed faintly into the normal dark background rather
+# than overpowering text. "cover" crops to fill the window instead of
+# letterboxing.
+background-image = ~/.config/ghostty/wallpaper.jpg
+background-image-opacity = 0.2
+background-image-fit = cover
+
 keybind = global:ctrl+grave_accent=toggle_quick_terminal

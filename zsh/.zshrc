@@ -6,6 +6,20 @@
 0=${(%):-%N}
 export DOTFILESDIR="${0:A:h:h}"
 
+# Auto-attach (or create) a persistent tmux session named "main" for every
+# new interactive shell, so every Ghostty window/tab lands inside tmux by
+# default. Every such window becomes another view onto the SAME session
+# (same windows/panes visible everywhere) rather than an independent one —
+# that's intentional, it's what makes the tmux-resurrect/continuum setup
+# below actually persistent across Ghostty restarts. Guarded against:
+# already being inside tmux ($TMUX set), non-interactive shells (scripts,
+# tool invocations), and IDE-embedded terminals (Cursor/VS Code set
+# TERM_PROGRAM=vscode) where auto-starting tmux would be unexpected.
+if [[ -o interactive ]] && [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]] \
+  && command -v tmux &>/dev/null; then
+  tmux attach -t main 2>/dev/null || tmux new -s main
+fi
+
 export ZSH="$HOME/.oh-my-zsh"
 
 # Let Oh My Zsh skip its own compinit call; we run a cached one below so

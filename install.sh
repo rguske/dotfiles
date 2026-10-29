@@ -41,6 +41,7 @@ link "$DOTFILES_DIR/zsh/.zshrc"      "$HOME/.zshrc"
 link "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 link "$DOTFILES_DIR/starship.toml"   "$HOME/.config/starship.toml"
 link "$DOTFILES_DIR/ghostty/config"  "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+link "$DOTFILES_DIR/ghostty/wallpaper.jpg" "$HOME/.config/ghostty/wallpaper.jpg"
 link "$DOTFILES_DIR/tmux/scripts"    "$HOME/.config/tmux/scripts"
 
 # The old ~/.zsh_aliases is superseded by zsh/aliases.zsh (sourced from the
