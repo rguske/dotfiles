@@ -55,8 +55,19 @@ bar via `tmux/scripts/k8s-status.sh`.
 
 ## tmux status bar
 
-Right side, left to right: current app, CPU, memory, weather, Kubernetes
-context/namespace, session name, battery.
+Right side, left to right: current app, CPU, memory, network, weather,
+Kubernetes context/namespace, session name, battery.
+
+Network (`tmux/scripts/net-status.sh`) shows `↓down ↑up ping` for the
+active interface (auto-detected via the default route, so it follows
+Wi-Fi/Ethernet switches). Like CPU, it's a custom script rather than a
+bundled plugin, and deliberately never blocks: throughput is a delta
+between this run's interface byte counters and the previous run's
+(cached in a file) instead of two samples a second apart, and the ping
+reading is whatever a previous *background*, fully-detached ping already
+wrote to its own cache file — this run also kicks off the next one before
+returning. Pin a different ping target by editing `PING_HOST` in the
+script.
 
 Weather (`xamut/tmux-weather`) calls [wttr.in](https://wttr.in) — no API
 key needed; location is IP-geolocated by default. Pin a city with
