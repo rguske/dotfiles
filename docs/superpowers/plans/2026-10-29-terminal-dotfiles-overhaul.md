@@ -454,7 +454,10 @@ format = '[⎈ $context($namespace)]($style) '
 style = "bold blue"
 
 [[kubernetes.contexts]]
-context_pattern = "(?i).*prod.*"
+# Case-insensitive "contains prod" match. NOTE: (?i) is unsupported by this
+# starship build's regex engine (it silently fails to compile and the rule
+# gets dropped) — do not "simplify" this back to (?i).*prod.*.
+context_pattern = ".*[Pp][Rr][Oo][Dd].*"
 style = "bold red"
 
 [character]
