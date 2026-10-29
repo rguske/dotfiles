@@ -61,8 +61,8 @@ brew "gh"
 
 - [ ] **Step 3: Verify the Brewfile parses**
 
-Run: `brew bundle list --file=Brewfile`
-Expected: prints the list of casks/formulae (`ghostty`, `tmux`, `starship`, `zoxide`, `eza`, `bat`, `kubecolor`, `prettyping`, `fzf`, `kubectx`, `k9s`, `gh`) with no syntax errors.
+Run: `brew bundle list --all --file=Brewfile`
+Expected: prints the list of casks/formulae (`ghostty`, `tmux`, `starship`, `zoxide`, `eza`, `bat`, `kubecolor`, `prettyping`, `fzf`, `kubectx`, `k9s`, `gh`) with no syntax errors. (`--all` is required: current Homebrew's `brew bundle list` defaults to formulae-only and silently omits casks like `ghostty` without it.)
 
 - [ ] **Step 4: Commit**
 
